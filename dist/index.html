@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highland BDC App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/cSS 2?family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/dist/style.css">
+</head>
+<body>
+    <div class="m-5 p-5">
+        <h1 class="text-2xl font-medium text-blue-800 text-center">Highland BDC App</h1>
+
+        <form>
+            <div class="flex flex-col items-center justify-center p-5">
+                <div class="flex flex-col p-5">
+                    <input type="number" id="amount" class="h-10 w-72 border-2 border-gray-500 rounded-xl px-5">
+                </div>
+                <div class="flex flex-col p-5">
+                    <select name="currency" id="currency" class="h-10 w-72 border-2 border-gray-500 rounded-xl px-5">
+                    </select>
+                </div>
+                <div class="flex flex-col p-5">
+                    <input type="button" value="Check Rate" id="check" class="bg-blue-700 text-white text-xl font-medium w-fit p-3 rounded-xl">
+                </div>    
+            </div>
+        </form>
+    
+        <div id="result" class="flex flex-col items-center justify-center">
+            <div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10"></div>
+            <div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5"></div>
+        </div>    
+    </div>
+    <script>
+        fetch("https://open.er-api.com/v6/latest/USD").then((response) => response.json()).then((data) => {
+            let currencies = Object.keys(data.rates)
+
+            currencies.forEach((currency) => {
+                let option = document.createElement("option")
+                option.value = currency
+                option.innerText = currency
+
+                document.querySelector("#currency").appendChild(option)
+            })
+
+        })
+
+        let btn = document.querySelector("#check")
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            let value1 = document.getElementById("amount").value
+            let value2 = document.getElementById("currency").value
+
+ 
+            fetch("https://open.er-api.com/v6/latest/USD").then((response) => response.json()).then((data) => {
+                document.getElementById("dollar").innerText = value1
+                document.getElementById("other").innerText = data.rates[value2]*value1
+            });
+        })
+    </script>   
+</body>
+</html>
