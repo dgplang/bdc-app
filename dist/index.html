@@ -32,10 +32,10 @@
         </form>
     
         <div id="result" class="flex flex-col items-center justify-center">
-            <div>Dollar Amount Converted</div>
+            <!-- <div>Dollar Amount Converted</div>
             <div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10"></div>
             <div>Choice Currency Equivalent Amount</div>
-            <div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5"></div>
+            <div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5"></div> -->
         </div>
 
         <div id="result" class="flex items-center justify-center mt-3">
@@ -71,8 +71,16 @@
 
  
             fetch("https://open.er-api.com/v6/latest/USD").then((response) => response.json()).then((data) => {
-                document.getElementById("dollar").innerText = value1
-                document.getElementById("other").innerText = data.rates[value2]*value1
+
+                let result = document.createElement("div")
+
+                result.innerHTML = `Dollar Amount Converted</div><div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10">${value1}</div><div>Choice Currency Equivalent Amount</div><div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5">${data.rates[value2]*value1}`
+
+                document.querySelector("#result").appendChild(result)
+
+                // docoment.getElementById("result").innerHTML = `<div>Dollar Amount Converted</div><div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10">${value1}</div><div>Choice Currency Equivalent Amount</div><div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5">${data.rates[value2]*value1}</div>`
+                // document.getElementById("dollar").innerText = value1
+                // document.getElementById("other").innerText = data.rates[value2]*value1
             });
         })
     </script>   
