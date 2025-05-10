@@ -42,7 +42,7 @@
             My GitHub:&nbsp;<a href="https://github.com/dgplang/bdc-app" target="_blank" class="text-blue-800 hover:underline">Click Here</a>
         </div>
     </div>
-    <script>
+    <script>    
         fetch("https://open.er-api.com/v6/latest/USD").then((response) => response.json()).then((data) => {
             let currencies = Object.keys(data.rates)
 
@@ -69,18 +69,23 @@
             let value1 = document.getElementById("amount").value
             let value2 = document.getElementById("currency").value
 
- 
+            function formatCurrency(number) {
+                return number.toLocaleString('en-US', {
+                style: 'currency',
+                currency: value2,
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+                });
+            }
+
             fetch("https://open.er-api.com/v6/latest/USD").then((response) => response.json()).then((data) => {
 
                 let result = document.createElement("div")
 
-                result.innerHTML = `Dollar Amount Converted</div><div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10">${value1}</div><div>Choice Currency Equivalent Amount</div><div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5">${data.rates[value2]*value1}`
+                resultElement = document.getElementById("result")
 
-                document.querySelector("#result").appendChild(result)
+                resultElement.innerHTML = `Dollar Amount Converted</div><div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10">${value1}</div><div>${value2} Equivalent Amount</div><div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5">${formatCurrency(data.rates[value2]*value1)}`
 
-                // docoment.getElementById("result").innerHTML = `<div>Dollar Amount Converted</div><div id="dollar" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5 mb-10">${value1}</div><div>Choice Currency Equivalent Amount</div><div id="other" class="flex items-center h-10 w-72 border-2 border-gray-500 rounded-xl p-5">${data.rates[value2]*value1}</div>`
-                // document.getElementById("dollar").innerText = value1
-                // document.getElementById("other").innerText = data.rates[value2]*value1
             });
         })
     </script>   
